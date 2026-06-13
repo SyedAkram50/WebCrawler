@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #f3f4f6; /* bg-gray-100 */
+  color: #1f2937; /* text-gray-800 */
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+/* Simple box layout styles for a beginner coder feel */
+.simple-card {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.simple-btn-blue {
+  background-color: #2563eb;
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.simple-btn-blue:hover {
+  background-color: #1d4ed8;
+}
+
+.simple-btn-red {
+  background-color: #dc2626;
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.simple-btn-red:hover {
+  background-color: #b91c1c;
+}
+
+.simple-btn-yellow {
+  background-color: #d97706;
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.simple-btn-yellow:hover {
+  background-color: #b45309;
+}
