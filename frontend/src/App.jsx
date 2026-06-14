@@ -6,7 +6,10 @@ import CrawlConsole from './components/CrawlConsole';
 import Auth from './components/Auth';
 import api from './api/axiosClient';
 
-const socket = io('http://localhost:5000');
+// Use VITE_API as socket host when available, otherwise default to localhost:5000
+const RAW_API = import.meta.env.VITE_API || 'http://localhost:5000';
+const SOCKET_HOST = RAW_API.replace(/\/$/, '');
+const socket = io(SOCKET_HOST);
 
 function App() {
   const [activeTab, setActiveTab] = useState('search');
