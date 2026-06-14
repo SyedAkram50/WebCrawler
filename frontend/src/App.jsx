@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import SearchInterface from './components/SearchInterface';
 import CrawlConsole from './components/CrawlConsole';
 import Auth from './components/Auth';
-import axios from 'axios';
+import api from './api/axiosClient';
 
 const socket = io('http://localhost:5000');
 
@@ -21,8 +21,8 @@ function App() {
     if (savedToken && savedUser) {
       setToken(savedToken);
       setUser(JSON.parse(savedUser));
-      // Setup axios interceptor here if needed, or simply set default header
-      axios.defaults.headers.common['x-auth-token'] = savedToken;
+      // Setup api default header using centralized axios client
+      api.defaults.headers.common['x-auth-token'] = savedToken;
     }
 
     const onConnect = () => setSocketConnected(true);
@@ -43,7 +43,7 @@ function App() {
   const handleLogin = (userData, userToken) => {
     setUser(userData);
     setToken(userToken);
-    axios.defaults.headers.common['x-auth-token'] = userToken;
+    api.defaults.headers.common['x-auth-token'] = userToken;
   };
 
   const handleLogout = () => {
@@ -51,7 +51,7 @@ function App() {
     setToken(null);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    delete axios.defaults.headers.common['x-auth-token'];
+    delete api.defaults.headers.common['x-auth-token'];
   };
 
   if (!user) {

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import api from '../api/axiosClient';
 import { Search, Globe, Calendar, HardDrive, FileText, ArrowRight, Loader2 } from 'lucide-react';
 
-const API_BASE = 'http://localhost:5000/api';
+// baseURL is provided by the centralized axios client (reads VITE_API from .env)
 
 export default function SearchInterface() {
   const [query, setQuery] = useState('');
@@ -27,7 +27,7 @@ export default function SearchInterface() {
 
   const fetchStats = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/stats`);
+      const response = await api.get('/stats');
       setStats(response.data);
     } catch (err) {
       console.error('Error fetching global stats:', err);
@@ -40,7 +40,7 @@ export default function SearchInterface() {
 
     setLoading(true);
     try {
-      const response = await axios.get(`${API_BASE}/search`, {
+      const response = await api.get('/search', {
         params: {
           q: query.trim(),
           page: searchPage,

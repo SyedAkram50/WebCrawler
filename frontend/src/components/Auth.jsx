@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api/axiosClient';
 import { Mail, Lock, User as UserIcon, Loader2 } from 'lucide-react';
 
-const API_BASE = 'http://localhost:5000/api/auth';
+// use centralized api client; auth endpoints live under /auth
 
 export default function Auth({ onLogin }) {
   const [isLogin, setIsLogin] = useState(true);
@@ -25,7 +25,7 @@ export default function Auth({ onLogin }) {
         ? { email: formData.email, password: formData.password }
         : formData;
 
-      const response = await axios.post(`${API_BASE}${endpoint}`, payload);
+      const response = await api.post(`/auth${endpoint}`, payload);
       const { token, user } = response.data;
       
       // Save token and user

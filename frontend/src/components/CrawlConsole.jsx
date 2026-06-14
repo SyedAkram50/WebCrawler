@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import api from '../api/axiosClient';
 import { 
   Play, Square, Trash2, Terminal, Sliders, Info, AlertTriangle, 
   CheckCircle2, XCircle, RefreshCw, BarChart2, Plus, Clock, ExternalLink 
 } from 'lucide-react';
 
-const API_BASE = 'http://localhost:5000/api';
+// baseURL is provided by the centralized axios client (reads VITE_API from .env)
 
 export default function CrawlConsole({ socket }) {
   // Config form state
@@ -105,7 +105,7 @@ export default function CrawlConsole({ socket }) {
   const fetchJobs = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API_BASE}/crawl/jobs`);
+      const response = await api.get('/crawl/jobs');
       setJobs(response.data);
       // Auto select the first job if none is selected
       if (response.data.length > 0 && !selectedJobId) {
@@ -120,7 +120,7 @@ export default function CrawlConsole({ socket }) {
 
   const fetchStats = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/stats`);
+      const response = await api.get('/stats');
       setStats(response.data);
     } catch (err) {
       console.error('Error fetching stats:', err);
@@ -129,7 +129,7 @@ export default function CrawlConsole({ socket }) {
 
   const fetchJobDetails = async (jobId) => {
     try {
-      const response = await axios.get(`${API_BASE}/crawl/jobs/${jobId}`);
+      const response = await api.get(`/crawl/jobs/${jobId}`);
       if (response.data) {
         setSelectedJobLogs(response.data.logs || []);
       }
@@ -144,7 +144,7 @@ export default function CrawlConsole({ socket }) {
 
     setSubmitting(true);
     try {
-      const response = await axios.post(`${API_BASE}/crawl/start`, {
+      const response = await api.post('/crawl/start', {
         url: seedUrl,
         maxDepth: parseInt(maxDepth),
         maxPages: parseInt(maxPages),
@@ -168,7 +168,7 @@ export default function CrawlConsole({ socket }) {
 
   const handleStopCrawl = async (jobId) => {
     try {
-      await axios.post(`${API_BASE}/crawl/stop/${jobId}`);
+      await api.post(`/crawl/stop/${jobId}`);
       fetchJobs();
     } catch (err) {
       alert(err.response?.data?.error || 'Failed to stop crawl job');
@@ -182,7 +182,7 @@ export default function CrawlConsole({ socket }) {
     }
 
     try {
-      await axios.delete(`${API_BASE}/crawl/jobs/${jobId}`);
+      await api.delete(`/crawl/jobs/${jobId}`);
       setJobs(prevJobs => prevJobs.filter(j => j._id !== jobId));
       if (selectedJobId === jobId) {
         setSelectedJobId(null);
